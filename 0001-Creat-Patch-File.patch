@@ -1,0 +1,129 @@
+From b9e130905c3a21504bdb7f249851c6f1fadad564 Mon Sep 17 00:00:00 2001
+From: Suraj Mane <learn.surajmane@gmail.com>
+Date: Tue, 16 Aug 2022 05:19:00 +0000
+Subject: [PATCH] Creat Patch File
+
+---
+ server3.py | 54 +-----------------------------------------------------
+ 1 file changed, 1 insertion(+), 53 deletions(-)
+
+diff --git a/server3.py b/server3.py
+index 704aa41..9b317de 100644
+--- a/server3.py
++++ b/server3.py
+@@ -1,24 +1,4 @@
+-################################################################################
+-#
+-#  Permission is hereby granted, free of charge, to any person obtaining a
+-#  copy of this software and associated documentation files (the "Software"),
+-#  to deal in the Software without restriction, including without limitation
+-#  the rights to use, copy, modify, merge, publish, distribute, sublicense,
+-#  and/or sell copies of the Software, and to permit persons to whom the
+-#  Software is furnished to do so, subject to the following conditions:
+-#
+-#  The above copyright notice and this permission notice shall be included in
+-#  all copies or substantial portions of the Software.
+-#
+-#  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+-#  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+-#  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+-#  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+-#  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+-#  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+-#  DEALINGS IN THE SOFTWARE.
+-
+-#from itertools import izip
++
+ from random    import normalvariate, random
+ from datetime  import timedelta, datetime
+ 
+@@ -31,33 +11,19 @@ import json
+ import re
+ import threading
+ 
+-#from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
+ import http.server
+ from socketserver   import ThreadingMixIn
+ 
+-################################################################################
+-#
+-# Config
+-
+-# Sim params
+-
+ REALTIME    = True
+ SIM_LENGTH  = timedelta(days = 365 * 5)
+ MARKET_OPEN = datetime.today().replace(hour = 0, minute = 30, second = 0)
+ 
+-# Market parms
+-#       min  / max  / std
+ SPD  = (2.0,   6.0,   0.1)
+ PX   = (60.0,  150.0, 1)
+ FREQ = (12,    36,   50)
+ 
+-# Trades
+-
+ OVERLAP = 4
+ 
+-################################################################################
+-#
+-# Test Data
+ 
+ def bwalk(min, max, std):
+     """ Generates a bounded random walk. """
+@@ -86,10 +52,6 @@ def orders(hist):
+         yield t, stock, side, order, size
+ 
+ 
+-################################################################################
+-#
+-# Order Book
+-
+ def add_book(book, order, size, _age = 10):
+     """ Add a new order and size to a book, and age the rest of the book. """
+     yield order, size, _age
+@@ -137,10 +99,6 @@ def order_book(orders, book, stock_name):
+         bids, asks = clear_book(**book)
+         yield t, bids, asks
+ 
+-################################################################################
+-#
+-# Test Data Persistence
+-
+ def generate_csv():
+     """ Generate a CSV of order history. """
+     with open('test.csv', 'wb') as f:
+@@ -156,9 +114,6 @@ def read_csv():
+         for time, stock, side, order, size in csv.reader(f):
+             yield dateutil.parser.parse(time), stock, side, float(order), int(size)
+ 
+-################################################################################
+-#
+-# Server
+ 
+ class ThreadedHTTPServer(ThreadingMixIn, http.server.HTTPServer):
+     """ Boilerplate class for a multithreaded HTTP Server, with working
+@@ -223,9 +178,6 @@ def run(routes, host = '0.0.0.0', port = 8080):
+     server.start()
+     server.waitForThread()
+ 
+-################################################################################
+-#
+-# App
+ 
+ ops = {
+     'buy':  operator.le,
+@@ -309,10 +261,6 @@ class App(object):
+             }
+         }]
+ 
+-################################################################################
+-#
+-# Main
+-
+ if __name__ == '__main__':
+     if not os.path.isfile('test.csv'):
+         print ("No data found, generating...")
+-- 
+2.17.1
+
